@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { Product} from "../product";
+import {ActivatedRoute} from "@angular/router";
+import {ProductService} from "../services/product.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -7,18 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private productService: ProductService, private route: ActivatedRoute) {
+  }
 
-  product = {
-    id: 1,
-    brand: 'Nurton',
-    name: 'Office chair',
-    price: 210,
-    category: 'Furniture',
-    image: 'https://images-na.ssl-images-amazon.com/images/I/613A7vcgJ4L._SL1500_.jpg',
+  product: Product = {
+    id: 0,
+    brand: '',
+    name: '',
+    price: 0,
+    category: '',
+    image: '',
   };
 
   ngOnInit(): void {
+    this.getProduct();
   }
 
+  getProduct(): void{
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const tempProduct = this.productService.getProduct(id);
+    if(tempProduct !== null)
+      this.product=tempProduct;
+  }
+
+  addToCart(): void {
+    window.alert(this.product.brand + " " + this.product.name + ' was added to cart!');
+  }
 }
