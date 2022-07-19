@@ -11,10 +11,11 @@ export class HomeComponent implements OnInit {
 
   product = {
     id: 1,
-    name: 'T-Shirt',
-    price: 25,
-    category: 'Clothes',
-    image: 'https://i.pinimg.com/originals/60/5b/c1/605bc1b961ef8acf50b3e445f01fa4c8.jpg',
+    brand: 'Nurton',
+    name: 'Office chair',
+    price: 210,
+    category: 'Furniture',
+    image: 'https://images-na.ssl-images-amazon.com/images/I/613A7vcgJ4L._SL1500_.jpg',
   };
 
   ngOnInit(): void {
