@@ -1,0 +1,36 @@
+<br><br>
+<body>
+<app-navbar></app-navbar>
+
+<div>
+  <div class="table-responsive" >
+    <table class="table table-bordered table-hover">
+      <thead class='thead'>
+      <tr>
+        <th>S.No</th>
+        <th>ID</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let list of cartProducts;index as i">
+        <td>{{i+1}}</td>
+        <td>{{list.productId}}</td>
+        <td>{{list.quantity}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card__footer">
+    <div class="recommend">
+      <p>Recommended by</p>
+      <h3>Online Shop ROMANIA</h3>
+    </div>
+    <div class="action">
+      <button type="button" (click)="checkout()">Checkout</button>
+    </div>
+
+  </div>
+</div>
+
+

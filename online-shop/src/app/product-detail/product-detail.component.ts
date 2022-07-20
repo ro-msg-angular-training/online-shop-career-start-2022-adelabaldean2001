@@ -23,17 +23,22 @@ export class ProductDetailComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.getProduct();
+    this.get();
   }
 
-  getProduct(): void{
+  get(): void{
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    const tempProduct = this.productService.getProduct(id);
-    if(tempProduct !== null)
-      this.product=tempProduct;
+    this.productService.getProduct(id).subscribe(data => {this.product = data;});
   }
 
   addToCart(): void {
     window.alert(this.product.brand + " " + this.product.name + ' was added to cart!');
+    this.productService.addToCart(this.product.id);
   }
+
+  delete(id: number): void {
+    this.productService.deleteProduct(id).subscribe(() => {
+        window.alert(this.product.name + ' with id = ' + id + ' was deleted!');
+      })
+    };
 }
