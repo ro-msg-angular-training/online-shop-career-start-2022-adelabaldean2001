@@ -1,21 +1,23 @@
-<br><br>
 <body>
 <app-navbar></app-navbar>
 
 <main >
   <div class="card" >
     <div class="card__title" >
+      <button *ngIf="this.authenticationService.isDisabled()" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add New Product</button>
+
       <div class="icon">
         <a href="#"><i class="fa fa-arrow-left"></i></a>
       </div>
       <h3>New products</h3>
+
     </div>
     <div *ngFor = "let product of products">
       <!--<a [routerLink]="['/listProductsDetail',product.name]">{{ product.name }}</a>-->
     <div class="card__body">
       <div class="half">
         <div class="featured_text">
-          <h1>{{product.brand}}</h1>
+          <h2>{{product.category}}</h2>
           <p class="sub">{{product.name}}</p>
           <p class="price">${{product.price}}</p>
         </div>
@@ -30,9 +32,63 @@
         <h3>Online Shop ROMANIA</h3>
       </div>
       <div class="action">
-        <button type="button"><a routerLink="/productDetail/{{product.id}}">See details</a></button>
+        <a><button type="button" routerLink="/productDetail/{{product.id}}">See details</button></a>
       </div>
     </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Product details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formValue">
+            <div class="mb-3">
+              <label class="form-label">Product Name</label>
+              <input type="text" formControlName="productName" class="form-control" required>
+            </div>
+
+            <div *ngIf="formValue.controls['productName']?.invalid && (formValue.controls['productName']?.dirty || formValue.controls['productName']?.touched)" class="alert alert-danger">
+              <div *ngIf="formValue.controls['productName']?.errors?.['required']">
+                Name is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Product Category</label>
+              <input type="text" formControlName="productCategory"  class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Product Price</label>
+              <input type="text" formControlName="productPrice"  class="form-control" required>
+            </div>
+
+            <div *ngIf="formValue.controls['productPrice']?.invalid && (formValue.controls['productPrice']?.dirty || formValue.controls['productPrice']?.touched)" class="alert alert-danger">
+              <div *ngIf="formValue.controls['productPrice']?.errors?.['required']">
+                Price is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Product Image</label>
+              <input type="text" formControlName="productImage"  class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Product Description</label>
+              <input type="text" formControlName="productDescription"  class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" (click)="postProductDetails()" class="btn btn-primary">Add</button>
+        </div>
+      </div>
     </div>
   </div>
 </main>

@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Product} from "../product";
 import { HttpClient } from '@angular/common/http';
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {Order} from "../order";
 
 @Injectable({
@@ -40,8 +40,6 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  @Output() event = new EventEmitter();
-
   getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${'http://localhost:3000'}/products/${id}`);
   }
@@ -52,6 +50,14 @@ export class ProductService {
 
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${'http://localhost:3000'}/products/${id}`);
+  }
+
+  editProduct(data: any, id: number){
+    return this.http.put(`${'http://localhost:3000'}/products/${id}`,data).pipe(map((res:any)=>{return res;}))
+  }
+
+  addProduct(data: any){
+    return this.http.post(`http://localhost:3000/products`,data).pipe(map((res:any)=>{return res;}))
   }
 
   addToCart(id: number): void{
@@ -69,27 +75,6 @@ export class ProductService {
   checkout(){
     return this.http.post(`${'http://localhost:3000'}/orders`, {products: this.cartProducts}, {responseType: 'text'})
   }
-
-/*
-  deleteProduct(id) {
-    let index = this.cartProducts.findIndex(item => item.product_id === id);
-    this.cartProducts.splice(index, 1);
-    this.sum();
-  }
-
-  sum(): void {
-    this.totalQuantity = 0;
-    this.price = 0;
-    this.totalPrice = 0;
-    if (this.cartProducts) {
-      this.cartProducts.map(product => {
-        this.totalQuantity += product.product_quanity;
-        this.price += product.product_price;
-        this.totalPrice += product.product_price * product.product_quanity;
-      });
-    }
-  }
-*/
 
   getOrders(): Order[] {
     return this.cartProducts;

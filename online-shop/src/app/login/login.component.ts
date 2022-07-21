@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../services/user.service";
+import {LoginCredential} from "../loginCredential";
+import {AuthenticationService} from "../services/authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,9 @@ import {UserService} from "../services/user.service";
 export class LoginComponent implements OnInit {
   formValue !: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  user: LoginCredential = new LoginCredential();
+
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) {
     this.createForm();
   }
 
@@ -29,12 +33,19 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(): void {
-    const username = this.formValue.value.username ?? '';
-    const password = this.formValue.value.password ?? '';
-    alert(`Username: ${username}, Password: ${password}`);
-    this.userService.post(user);
-
-
+    this.user.username = this.formValue.value.username;
+    this.user.password = this.formValue.value.password;
+    this.authenticationService.authenticatedUser(this.user)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/listProductsDetail']);
+        },
+        error: () => {
+          alert(`Failed!`);
+        }
+      });
+    alert(`Username: ${this.user.username}, Password: ${this.user.password}`);
   }
+
 }
 

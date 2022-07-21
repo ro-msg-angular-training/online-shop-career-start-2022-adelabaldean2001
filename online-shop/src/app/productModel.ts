@@ -1,8 +1,8 @@
-export interface Product {
-  id: number,
-  brand: string,
-  name: string,
-  price: number,
-  category: string,
-  image: string,
+export class ProductModel {
+  id: number = 0;
+  name: string = '';
+  price: number = 0;
+  category: string = '';
+  image: string = '';
+  description: string = '';
 }
