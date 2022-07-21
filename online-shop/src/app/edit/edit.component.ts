@@ -11,7 +11,6 @@ export class EditComponent implements OnInit {
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.edit(this.productService.getProduct(id),id);
   }
 
   edit(value: any, id: number) {
