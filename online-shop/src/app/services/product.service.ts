@@ -47,7 +47,7 @@ export class ProductService {
   }
 
   checkout(){
-    return this.http.post(`${'http://localhost:3000'}/orders`, {products: this.cartProducts}, {responseType: 'text'})
+    return this.http.post(`${environment.apiURL}/orders`, {products: this.cartProducts}, {responseType: 'text'})
   }
 
   getOrders(): Order[] {

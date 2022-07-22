@@ -25,7 +25,7 @@ export class ListProductsDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.get();
+    this.getProducts();
 
     this.formValue = this.formBuilder.group({
       productName: [''],
@@ -43,7 +43,7 @@ export class ListProductsDetailComponent implements OnInit {
     });
   }
 
-  get(): void {
+  getProducts(): void {
     this.productService.getProducts().pipe(first()).subscribe(data => {this.products = data;})
   }
 
@@ -59,7 +59,7 @@ export class ListProductsDetailComponent implements OnInit {
         alert("Product was added!")
         this.ref?.nativeElement.click();
         this.formValue.reset();
-        this.get();
+        this.getProducts();
       },
       error: err=>{
       alert("Something went wrong!");
