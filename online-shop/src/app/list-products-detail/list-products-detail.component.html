@@ -13,7 +13,6 @@
 
     </div>
     <div *ngFor = "let product of products">
-      <!--<a [routerLink]="['/listProductsDetail',product.name]">{{ product.name }}</a>-->
     <div class="card__body">
       <div class="half">
         <div class="featured_text">
@@ -85,7 +84,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button #ref type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" (click)="postProductDetails()" class="btn btn-primary">Add</button>
         </div>
       </div>

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ProductService} from "../services/product.service";
 import {Product} from "../product";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductModel} from "../productModel";
 import {AuthenticationService} from "../services/authentication.service";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-list-products-detail',
@@ -12,6 +13,8 @@ import {AuthenticationService} from "../services/authentication.service";
 })
 export class ListProductsDetailComponent implements OnInit {
 
+  @ViewChild('ref') ref?: ElementRef<HTMLInputElement>;
+
   products: Product[]=[]
   formValue !: FormGroup;
 
@@ -19,7 +22,6 @@ export class ListProductsDetailComponent implements OnInit {
 
   constructor(private productService: ProductService, private formBuilder: FormBuilder, public authenticationService: AuthenticationService) {
     this.createForm();
-
   }
 
   ngOnInit(): void {
@@ -42,11 +44,10 @@ export class ListProductsDetailComponent implements OnInit {
   }
 
   get(): void {
-    this.productService.getProducts().subscribe(data => {this.products = data;})
+    this.productService.getProducts().pipe(first()).subscribe(data => {this.products = data;})
   }
 
   postProductDetails(){
-    debugger;
     this.productModelObj.name = this.formValue.value.productName;
     this.productModelObj.category = this.formValue.value.productCategory;
     this.productModelObj.price = this.formValue.value.productPrice;
@@ -55,13 +56,11 @@ export class ListProductsDetailComponent implements OnInit {
 
     this.productService.addProduct(this.productModelObj).subscribe({
       next: (res) =>{
-      console.log(res);
-      alert("Product was added!")
-      let ref = document.getElementById('cancel')
-      ref?.click();
-      this.formValue.reset();
-      this.get();
-    },
+        alert("Product was added!")
+        this.ref?.nativeElement.click();
+        this.formValue.reset();
+        this.get();
+      },
       error: err=>{
       alert("Something went wrong!");
     }});

@@ -62,10 +62,15 @@
               <label class="form-label">Product Price</label>
               <input type="text" formControlName="productPrice" class="form-control">
             </div>
+            <div class="mb-3">
+              <label class="form-label">Product Image</label>
+              <input type="URL" formControlName="productImage" class="form-control">
+            </div>
+
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button #ref type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" (click)="updateProductDetails()" class="btn btn-primary">Edit</button>
         </div>
       </div>

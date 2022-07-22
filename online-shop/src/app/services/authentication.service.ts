@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {UserService} from "./user.service";
-import {catchError, Observable, of} from "rxjs";
-import {Product} from "../product";
+import {catchError, of} from "rxjs";
 import {User} from "../user";
 import {LoginCredential} from "../loginCredential";
 
@@ -9,8 +8,6 @@ import {LoginCredential} from "../loginCredential";
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  //userLogged !: boolean;
 
   user: User = {
     username: '',
@@ -27,9 +24,6 @@ export class AuthenticationService {
         if(data) {
           this.user = data;
           this.userLogged = this.user.username;
-          console.log(this.userLogged);
-          //localStorage.setItem('loggedUser',this.user.username);
-          console.log(localStorage);
         }
     })
     return login$;
@@ -53,5 +47,4 @@ export class AuthenticationService {
       localStorage.setItem('loggedUser',value);
     }
   }
-
 }
