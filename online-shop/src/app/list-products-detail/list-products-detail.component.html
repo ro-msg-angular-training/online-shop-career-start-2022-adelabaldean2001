@@ -12,6 +12,7 @@
       <h3>New products</h3>
 
     </div>
+
     <div *ngFor = "let product of products$ | async">
     <div class="card__body">
       <div class="half">
@@ -31,7 +32,7 @@
         <h3>Online Shop ROMANIA</h3>
       </div>
       <div class="action">
-        <a><button type="button" routerLink="/productDetail/{{product.id}}">See details</button></a>
+        <a><mat-icon-button type="button" routerLink="/productDetail/{{product.id}}">See details</mat-icon-button></a>
       </div>
     </div>
     </div>
@@ -42,6 +43,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          <mat-slider min="1" max="100" step="1" value="50"></mat-slider>
           <h5 class="modal-title" id="staticBackdropLabel">Product details</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -84,8 +86,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button #ref type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" (click)="postProductDetails()" class="btn btn-primary">Add</button>
+          <button mat-raised-button #ref type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button mat-stroked-button type="button" (click)="postProductDetails()" class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>

@@ -21,6 +21,12 @@ import {cartReducer} from "./store/reducers/cart.reducers";
 import {CartEffects} from "./store/effects/cart.effects";
 import {authenticationReducer} from "./store/reducers/authentication.reducers";
 import {AuthenticationEffects} from "./store/effects/authentication.effects";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatSliderModule } from '@angular/material/slider';
+import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from "@angular/material/button";
+
 
 @NgModule({
   declarations: [
@@ -40,7 +46,11 @@ import {AuthenticationEffects} from "./store/effects/authentication.effects";
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([ProductEffects, CartEffects, AuthenticationEffects]),
-    StoreModule.forRoot({ products: productReducer, cart: cartReducer, authentication: authenticationReducer }, {}),
+    StoreModule.forRoot({products: productReducer, cart: cartReducer, authentication: authenticationReducer}, {}),
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatTableModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
