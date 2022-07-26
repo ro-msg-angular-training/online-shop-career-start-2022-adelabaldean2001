@@ -1,14 +1,14 @@
 import { LoadingStatus } from "src/app/store/common";
-import { Order } from "../../order";
+import {User} from "../../user";
 
-export interface CartState {
-  products: Order[];
+export interface AuthenticationState {
+  user: User | null;
   error: string | null;
   status: LoadingStatus;
 };
 
-export const initialState: CartState = {
-  products: [],
+export const initialState: AuthenticationState = {
+  user: null,
   error: '',
   status: 'pending'
 };

@@ -1,15 +1,20 @@
 import { createAction, props } from "@ngrx/store";
+import {User} from "../../user";
+import {HttpErrorResponse} from "@angular/common/http";
+import {LoginCredential} from "../../loginCredential";
 
-export const addToCart = createAction(
-  '[Product] Add Product to Cart',
-  props<{ id: number }>()
-);
-export const addToCartSuccess = createAction(
-  '[Product] Add Product to Cart Success',
-  props<{ id: number }>()
-);
-export const addToCartError = createAction(
-  '[Product] Add Product to Cart Error',
-  props<{ error: string }>()
-);
+export const login = createAction(
+  '[User] Login',
+  props<{ loginCredential: LoginCredential }>()
+)
+
+export const loginSuccess = createAction(
+  '[User] Login Success',
+  props<{ user: User }>()
+)
+
+export const loginError = createAction(
+  '[User] Login Error',
+  props<{ response: HttpErrorResponse }>()
+)
 

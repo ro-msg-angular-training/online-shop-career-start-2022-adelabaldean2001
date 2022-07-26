@@ -1,101 +1,73 @@
 import { createReducer, on } from "@ngrx/store";
 import { initialState } from "../state/product.state";
 import {
-  getProducts,
-  getProductsSuccess,
-  getProductsError,
-  addProduct,
-  deleteProduct,
-  editProduct,
-  getProduct,
-  getProductSuccess,
-  getProductError,
-  addProductError,
-  addProductSuccess,
-  deleteProductSuccess,
-  deleteProductError, editProductSuccess, editProductError
-} from "../actions/product.actions";
+  addToCart,
+  addToCartError,
+  addToCartSuccess,
+  checkout,
+  checkoutError,
+  checkoutSuccess
+} from "../actions/cart.actions";
+import {getProduct, getProductError, getProductSuccess} from "../actions/product.actions";
+import {initialCartState} from "../state/cart.state";
 
-export const productReducer = createReducer(
-  initialState,
+export const cartReducer = createReducer(
+  initialCartState,
 
-  on(getProduct, (state) => ({
+  on(addToCart, (state, {id}) => {
+    let index = state.products.find(products => products.productId === id);
+    if(index){
+      let indexFind = { productId: id, quantity: index.quantity + 1 }
+      return {
+        ...state,
+        products: state.products.map((data) => {
+          if (data.productId === id){
+            return indexFind
+          } else{
+            return data;
+          }
+        }),
+        status: 'success',
+        error: "",
+      };
+    } else {
+      return {
+        ...state,
+        products: [...state.products, {productId: id, quantity: 1}],
+        status: "success",
+        error: null,
+      }
+    }
+  }),
+  on(addToCartSuccess, (state) => ({
     ...state,
-    status: "loading"
-  })),
-  on(getProductSuccess, (state, {product}) => ({
-    ...state,
-    product: product,
-    status: "success",
+    products: [],
     error: null,
+    status: 'error',
   })),
-  on(getProductError, (state, { error }) => ({
+  on(addToCartError, (state, { error }) => ({
     ...state,
     error: error,
     status: 'error',
   })),
 
-
-  on(getProducts, (state) => ({
+  on(checkout, (state) => ({
+      ...state,
+      status: 'loading',
+    }
+  )),
+  on(checkoutSuccess, (state) => ({
     ...state,
-    status: 'loading'})),
-  on(getProductsSuccess, (state, { products }) => ({
-    ...state,
-    products: products,
+    products: [],
     error: null,
     status: 'success',
   })),
-  on(getProductsError, (state, { error }) => ({
+  on(checkoutError, (state) => ({
     ...state,
-    error: error,
+    error: 'error',
     status: 'error',
   })),
 
-  on(addProduct, (state, { productModel }) => ({
-    ...state,
-    products: [...state.products, productModel],
-    status: 'loading'
-  })),
-  on(addProductSuccess, (state) => ({
-    ...state,
-    status: "success",
-    error: null,
-  })),
-  on(addProductError, (state) => ({
-    ...state,
-    status: "error",
-    error: null,
-  })),
-
-  on(deleteProduct, (state, { id }) => ({
-    ...state,
-    products: state.products.filter((product) => product.id !== id),
-  })),
-  on(deleteProductSuccess, (state) => ({
-    ...state,
-    status: "success",
-    error: null,
-  })),
-  on(deleteProductError, (state) => ({
-    ...state,
-    status: "error",
-    error: null,
-  })),
-
-  on(editProduct, (state, { productModel }) => ({
-    ...state,
-    status: 'loading'
-  })),
-  on(editProductSuccess, (state) => ({
-    ...state,
-    status: "success",
-    error: null,
-  })),
-  on(editProductError, (state) => ({
-    ...state,
-    status: "error",
-    error: null,
-  })),
 )
 
 

@@ -12,7 +12,7 @@
       <h3>New products</h3>
 
     </div>
-    <div *ngFor = "let product of products">
+    <div *ngFor = "let product of products$ | async">
     <div class="card__body">
       <div class="half">
         <div class="featured_text">

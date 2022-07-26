@@ -11,6 +11,16 @@ import {HttpClientModule} from '@angular/common/http';
 import { CartComponent } from './cart/cart.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { environment } from '../environments/environment';
+
+import {StoreModule} from "@ngrx/store";
+import { EffectsModule } from '@ngrx/effects';
+import {productReducer} from "./store/reducers/product.reducers";
+import {ProductEffects} from "./store/effects/product.effects";
+import {cartReducer} from "./store/reducers/cart.reducers";
+import {CartEffects} from "./store/effects/cart.effects";
+import {authenticationReducer} from "./store/reducers/authentication.reducers";
+import {AuthenticationEffects} from "./store/effects/authentication.effects";
 
 @NgModule({
   declarations: [
@@ -27,7 +37,10 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([ProductEffects, CartEffects, AuthenticationEffects]),
+    StoreModule.forRoot({ products: productReducer, cart: cartReducer, authentication: authenticationReducer }, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]
