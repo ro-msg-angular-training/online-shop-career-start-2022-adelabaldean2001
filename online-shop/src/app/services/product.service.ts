@@ -26,8 +26,8 @@ export class ProductService {
     return this.http.delete<void>(`${environment.apiURL}/products/${id}`);
   }
 
-  editProduct(data: any, id: number){
-    return this.http.put(`${environment.apiURL}/products/${id}`,data).pipe(map((res:any)=>{return res;}))
+  editProduct(product: Product){
+    return this.http.put(`${environment.apiURL}/products/${product.id}`,product).pipe(map((res:any)=>{return res;}))
   }
 
   addProduct(data: any){

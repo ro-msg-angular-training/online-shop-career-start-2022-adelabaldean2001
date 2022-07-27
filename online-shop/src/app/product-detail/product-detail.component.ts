@@ -5,6 +5,14 @@ import {ProductService} from "../services/product.service";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import {ProductModel} from "../productModel";
 import {AuthenticationService} from "../services/authentication.service";
+import * as ProductActions from "../store/actions/product.actions";
+import {AppState} from "../store/state/app.state";
+import {Store} from "@ngrx/store";
+import * as ProductSelectors from "../store/selectors/product.selectors";
+import * as CartActions from "../store/actions/cart.actions";
+import {Actions, ofType} from "@ngrx/effects";
+import {getProductSuccess} from "../store/actions/product.actions";
+
 
 @Component({
   selector: 'app-product-detail',
@@ -13,12 +21,21 @@ import {AuthenticationService} from "../services/authentication.service";
 })
 export class ProductDetailComponent implements OnInit {
   formValue !: FormGroup;
-  productModelObj: ProductModel = new ProductModel();
+  private productId !: number;
+  product$ = this.store.select(ProductSelectors.selectProduct);
+
   @ViewChild('ref') ref?: ElementRef<HTMLInputElement>;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute, private formBuilder: FormBuilder, public authenticationService: AuthenticationService) {
+  constructor(
+    private productService: ProductService,
+    private store: Store<AppState>,
+    private actions$: Actions,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    public authenticationService: AuthenticationService) {
   }
 
+  id = -1;
   product: Product = {
     id: 0,
     name: '',
@@ -34,28 +51,28 @@ export class ProductDetailComponent implements OnInit {
       productName: [''],
       productCategory: [''],
       productPrice: [''],
-      productImage: ['']
+      productImage: [''],
     })
   }
 
   get(): void{
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.productService.getProduct(id).subscribe(data => {this.product = data;});
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.productService.getProduct(this.id).subscribe(data => {this.product = data;});
   }
 
   addToCart(): void {
     window.alert(this.product.category + " " + this.product.name + ' was added to cart!');
-    this.productService.addToCart(this.product.id);
+    this.store.dispatch(CartActions.addToCart({id: this.id}));
+
   }
 
   delete(id: number): void {
-    this.productService.deleteProduct(id).subscribe(() => {
-        window.alert(this.product.name + ' with id = ' + id + ' was deleted!');
-      })
-    };
+    this.store.dispatch(ProductActions.deleteProduct({id}));
+    window.alert(this.product.name + ' with id = ' + id + ' was deleted!');
+  };
 
   onEdit(value: any){
-    this.productModelObj.id = value.id;
+    this.productId = value.id;
     this.formValue.controls['productName'].setValue(value.name);
     this.formValue.controls['productCategory'].setValue(value.category);
     this.formValue.controls['productPrice'].setValue(value.price);
@@ -63,17 +80,20 @@ export class ProductDetailComponent implements OnInit {
   }
 
   updateProductDetails(){
-    this.productModelObj.name = this.formValue.value.productName;
-    this.productModelObj.category = this.formValue.value.productCategory;
-    this.productModelObj.price = this.formValue.value.productPrice;
-    this.productModelObj.image = this.formValue.value.productImage;
+    const productModel: ProductModel = {
+      id: this.productId,
+      name: this.formValue.value.productName,
+      category: this.formValue.value.productCategory,
+      price: this.formValue.value.productPrice,
+      image: this.formValue.value.productImage,
+      description: this.formValue.value.productDescription,
+    }
 
-    this.productService.editProduct(this.productModelObj,this.productModelObj.id).subscribe(res=>{
-      alert("Updated successfully!")
-      this.ref?.nativeElement.click();
-      this.formValue.reset();
-      this.productService.getProducts();
-    })
+    this.store.dispatch(ProductActions.editProduct({productModel}));
+    alert("Updated successfully!")
+    this.ref?.nativeElement.click();
+    this.formValue.reset();
+    this.store.dispatch(ProductActions.getProducts());
   }
 
 }

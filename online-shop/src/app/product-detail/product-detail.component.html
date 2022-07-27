@@ -6,29 +6,29 @@
       <div class="icon">
         <a href="#"><i class="fa fa-arrow-left"></i></a>
       </div>
-      <h3>New products</h3>
+      <h3 i18n >New products</h3>
     </div>
     <div class="card__body">
       <div class="half">
         <div class="featured_text">
-          <h1>{{product.category}}</h1>
-          <p class="sub">{{product.name}}</p>
-          <p class="price">${{product.price}}</p>
+          <h1 i18n>{{product.category}}</h1>
+          <p i18n class="sub">{{product.name}}</p>
+          <p i18n class="price">${{product.price}}</p>
         </div>
         <div class="image">
-          <img src="{{product.image}}" alt="" width="300px">
+          <img src="{{product.image}}" i18n-src alt="" width="300px">
         </div>
       </div>
     </div>
     <div class="card__footer">
       <div class="recommend">
-        <p>Recommended by</p>
-        <h3>Online Shop ROMANIA</h3>
+        <p i18n >Recommended by</p>
+        <h3 i18n >Online Shop ROMANIA</h3>
       </div>
       <div class="action">
-        <button type="button" (click)="addToCart()">Add to cart</button>
-        <a><button *ngIf="this.authenticationService.isDisabled()" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="onEdit(product)" >Edit</button></a>
-        <button *ngIf="this.authenticationService.isDisabled()" type="button" (click)="delete(product.id)">Delete</button>
+        <button mat-raised-button i18n type="button" (click)="addToCart()">Add to cart</button>
+        <a><button mat-raised-button i18n *ngIf="this.authenticationService.isDisabled()" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="onEdit(product)" >Edit</button></a>
+        <button mat-raised-button i18n *ngIf="this.authenticationService.isDisabled()" type="button" (click)="delete(product.id)">Delete</button>
       </div>
     </div>
   </div>
@@ -38,40 +38,40 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Product details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 i18n class="modal-title" id="staticBackdropLabel">Product details</h5>
+          <button i18n type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form [formGroup]="formValue">
             <div class="mb-3">
-              <label class="form-label">Product Name</label>
+              <label i18n class="form-label">Product Name</label>
               <input type="text" formControlName="productName" class="form-control">
             </div>
 
             <div *ngIf="formValue.controls['name']?.invalid && (formValue.controls['name']?.dirty || formValue.controls['name']?.touched)" class="alert alert-danger">
-              <div *ngIf="formValue.controls['name']?.errors?.['required']">
+              <div i18n *ngIf="formValue.controls['name']?.errors?.['required']">
                 Name is required.
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Product Category</label>
+              <label i18n class="form-label">Product Category</label>
               <input type="text" formControlName="productCategory" class="form-control">
             </div>
             <div class="mb-3">
-              <label class="form-label">Product Price</label>
+              <label i18n class="form-label">Product Price</label>
               <input type="text" formControlName="productPrice" class="form-control">
             </div>
             <div class="mb-3">
-              <label class="form-label">Product Image</label>
+              <label i18n class="form-label">Product Image</label>
               <input type="URL" formControlName="productImage" class="form-control">
             </div>
 
           </form>
         </div>
         <div class="modal-footer">
-          <button #ref type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" (click)="updateProductDetails()" class="btn btn-primary">Edit</button>
+          <button mat-raised-button i18n #ref type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button mat-stroked-button i18n type="button" (click)="updateProductDetails()" class="btn btn-primary">Edit</button>
         </div>
       </div>
     </div>

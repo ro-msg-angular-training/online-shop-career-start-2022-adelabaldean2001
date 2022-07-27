@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginCredential} from "../loginCredential";
 import {AuthenticationService} from "../services/authentication.service";
 import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {login} from "../store/actions/authentication.actions";
+import {AppState} from "../store/state/app.state";
 
 @Component({
   selector: 'app-login',
@@ -12,9 +15,11 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
   formValue !: FormGroup;
 
-  user: LoginCredential = new LoginCredential();
-
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthenticationService,
+    //private router: Router,
+    private store: Store<AppState>){
     this.createForm();
   }
 
@@ -33,18 +38,14 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(): void {
-    this.user.username = this.formValue.value.username;
-    this.user.password = this.formValue.value.password;
-    this.authenticationService.authenticatedUser(this.user)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/listProductsDetail']);
-        },
-        error: () => {
-          alert(`Failed!`);
-        }
-      });
-    alert(`Username: ${this.user.username}, Password: ${this.user.password}`);
+    let user: LoginCredential = {
+      username: this.formValue.value.username,
+      password: this.formValue.value.password
+    }
+
+    this.store.dispatch(login({loginCredential: user}));
+
+    console.log(`ASD Username: ${user.username}, Password: ${user.password}`);
   }
 
 }
