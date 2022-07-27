@@ -21,12 +21,9 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectCartProducts).subscribe((data) => this.cartProducts = data);
-   // this.cartProducts = this.productService.getOrders();
   }
   checkout(): void{
     window.alert('Completed order!');
-    //this.productService.checkout();
-
     this.store.dispatch(CartActions.checkout({products: this.cartProducts}));
   }
 

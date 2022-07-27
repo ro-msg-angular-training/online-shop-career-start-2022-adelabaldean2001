@@ -43,15 +43,6 @@ export class LoginComponent implements OnInit {
       password: this.formValue.value.password
     }
 
-    // this.authenticationService.authenticatedUser(this.user)
-    //   .subscribe({
-    //     next: () => {
-    //       this.router.navigate(['/listProductsDetail']);
-    //     },
-    //     error: () => {
-    //       alert(`Failed!`);
-    //     }
-    //   });
     this.store.dispatch(login({loginCredential: user}));
 
     console.log(`ASD Username: ${user.username}, Password: ${user.password}`);

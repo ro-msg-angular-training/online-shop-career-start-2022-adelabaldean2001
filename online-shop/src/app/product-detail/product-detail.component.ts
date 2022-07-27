@@ -58,12 +58,10 @@ export class ProductDetailComponent implements OnInit {
   get(): void{
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.productService.getProduct(this.id).subscribe(data => {this.product = data;});
-    //this.store.dispatch(ProductActions.getProduct({id: this.id}));
   }
 
   addToCart(): void {
     window.alert(this.product.category + " " + this.product.name + ' was added to cart!');
-    //this.productService.addToCart(this.product.id);
     this.store.dispatch(CartActions.addToCart({id: this.id}));
 
   }
@@ -71,10 +69,7 @@ export class ProductDetailComponent implements OnInit {
   delete(id: number): void {
     this.store.dispatch(ProductActions.deleteProduct({id}));
     window.alert(this.product.name + ' with id = ' + id + ' was deleted!');
-    // this.productService.deleteProduct(id).subscribe(() => {
-    //     window.alert(this.product.name + ' with id = ' + id + ' was deleted!');
-    //   })
-    };
+  };
 
   onEdit(value: any){
     this.productId = value.id;
@@ -99,13 +94,6 @@ export class ProductDetailComponent implements OnInit {
     this.ref?.nativeElement.click();
     this.formValue.reset();
     this.store.dispatch(ProductActions.getProducts());
-
-    // this.productService.editProduct(productModel).subscribe(res=>{
-    //   alert("Updated successfully!")
-    //   this.ref?.nativeElement.click();
-    //   this.formValue.reset();
-    //   this.productService.getProducts();
-    // })
   }
 
 }

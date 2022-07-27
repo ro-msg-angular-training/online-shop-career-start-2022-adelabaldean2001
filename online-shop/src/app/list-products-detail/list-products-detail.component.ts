@@ -33,7 +33,6 @@ export class ListProductsDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getProducts();
     this.store.dispatch(ProductActions.getProducts());
 
     this.formValue = this.formBuilder.group({
@@ -65,16 +64,6 @@ export class ListProductsDetailComponent implements OnInit {
       image: this.formValue.value.productImage,
       description: this.formValue.value.productDescription,
     }
-    // this.productService.addProduct(product).subscribe({
-    //   next: (res) =>{
-    //     alert("Product was added!")
-    //     this.ref?.nativeElement.click();
-    //     this.formValue.reset();
-    //     this.store.dispatch(ProductActions.getProducts());
-    //   },
-    //   error: err=>{
-    //   alert("Something went wrong!");
-    // }});
 
     this.store.dispatch(ProductActions.addProduct({productModel}));
     alert("Product was added!")
